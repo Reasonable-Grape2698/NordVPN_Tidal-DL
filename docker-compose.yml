@@ -17,7 +17,7 @@ Services:
     container_name: tidal_dl
     volumes: 
       - /downloads/dir:/downloads
-      - /path/config/tidal-config.json:/root/.tidal-dl.json
+      - ./tidal-config.json:/root/.tidal-dl.json
     network_mode: container:vpn
     depends_on:
       - vpn
