@@ -1,0 +1,24 @@
+Services:
+  vpn:
+    image: ghcr.io/bubuntux/nordvpn
+    container_name: vpn
+    cap_add:
+      - NET_ADMIN               # Required
+      - NET_RAW                 # Required
+    environment:                # Review https://github.com/bubuntux/nordvpn#environment-variables
+      - TOKEN=abcder1312fea.....
+      - CONNECT=USA
+      - TECHNOLOGY=NordLynx
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=1  # Recomended if using ipv4 only
+      
+  tidal-dl:
+    image: blurred123131/tidal-dl:latest
+    container_name: tidal_dl
+    volumes: 
+      - /downloads/dir:/downloads
+      - /path/config/tidal-config.json:/root/.tidal-dl.json
+    network_mode: container:vpn
+    depends_on:
+      - vpn
+    command: tail -F /dev/null
